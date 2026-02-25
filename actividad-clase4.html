@@ -79,26 +79,40 @@ th {
 <h1>🌐 Actividad Clase 4</h1>
 <h2>Comunicación entre Servicios + REST + Eventos + Service Discovery</h2>
 
-<p><strong>Equipo:</strong> ____________________</p>
-<p><strong>Proyecto:</strong> ____________________</p>
+<p><strong>Equipo:</strong> Grupo 2 </p>
+<p><strong>Proyecto:</strong> App tipo Rappi </p>
 
 <div class="section">
 <h2>🪜 1. Interacciones entre Servicios</h2>
 
 <p><strong>Interacción 1</strong></p>
-<label>Servicio que envía:</label>
+<label>Servicio que envía: Pedidos  </label>
 <div class="line"></div>
-<label>Servicio que recibe:</label>
+<label>Servicio que recibe: Inventario </label>
 <div class="line"></div>
-<label>Información enviada:</label>
+<label>Información enviada: Un ID del producto, cantidad solicitada, y datos del pedido para verificar disponibilidad </label>
 <div class="line"></div>
-<label>¿Qué sucede si no responde?</label>
+<label>¿Qué sucede si no responde? el pediddo no se podria confirmar y el sistema inforari al ausuario que el producto no se encuentra disponible o que hubo algun herror </label>
 <div class="line"></div>
 
 <p><strong>Interacción 2</strong></p>
+<label>Servicio que envía: Pedidos   </label>
+<div class="line"></div>
+<label>Servicio que recibe: Pagos </label>
+<div class="line"></div>
+<label>Información enviada: Datos del pedido, monto total, y método de pago </label>
+<div class="line"></div>
+<label>¿Qué sucede si no responde? No se puede confirmar el pedido. 
 <div class="line"></div>
 
 <p><strong>Interacción 3</strong></p>
+<label>Servicio que envía: Autenticacion </label>
+<div class="line"></div>
+<label>Servicio que recibe: usuario </label>
+<div class="line"></div>
+<label>Información enviada: Un correo electronico y contraseña para validar informacion </label>
+<div class="line"></div>
+<label>¿Qué sucede si no responde? El usuario no podria iniciar sesion y el sistema le mostrara error de autenticacion
 <div class="line"></div>
 </div>
 
@@ -113,22 +127,22 @@ th {
 <th>¿Por qué?</th>
 </tr>
 <tr>
-<td>1</td>
+<td> Pedidos e inventarios </td>
+<td>*</td>
 <td></td>
-<td></td>
-<td></td>
+<td> porque necesita respuesta inmediante para que este verifique si esta disponible</td>
 </tr>
 <tr>
-<td>2</td>
+<td>Autenticacion y usuario </td>
+<td>*</td>
 <td></td>
-<td></td>
-<td></td>
+<td>porque el login requiere autenticacion inmediata de las credenciales </td>
 </tr>
 <tr>
-<td>3</td>
+<td>Pedidos y notificaciones</td>
 <td></td>
-<td></td>
-<td></td>
+<td>*</td>
+<td>porque este solo envia un aviso cuando ocurre un cambio de estado, el cual no necesita respuesta inmediata</td>
 </tr>
 </table>
 </div>
@@ -144,61 +158,62 @@ th {
 <th>Justificación</th>
 </tr>
 <tr>
-<td>1</td>
+<td>Pedidos -> inventario</td>
+<td>*</td>
 <td></td>
+<td>el sistema debe esperar de la confirmacion del inventario antes de continuar con el pedido</td>
+</tr>
+<tr>
+<td>Autenticación -> usuario </td>
+<td>*</td>
 <td></td>
+<td> el usuario necesita respuesta inmediata para saber si puede iniciar sesión</td>
 <td></td>
 </tr>
 <tr>
-<td>2</td>
+<td>Pedidos -> notificaciones</td>
 <td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td></td>
-<td></td>
+<td>*</td>
+<td>las notificaciones se envian en segundo plano y este no bloquea el proceso del pedido</td>
 </tr>
 </table>
 </div>
 
 <div class="section">
 <h2>🪜 4. Eventos Importantes del Sistema</h2>
-1️⃣ ______________________________________<br><br>
-2️⃣ ______________________________________<br><br>
-3️⃣ ______________________________________
+1️⃣ Cuando un cliente crea un pedido <br><br>
+2️⃣ Cuando es pago es aprobado o rechazado<br><br>
+3️⃣ Cuando el pedido cambia de estado, como por ejemplo: confirmado, en camino o entregado<br><br>
 </div>
 
 <div class="section">
 <h2>🪜 5. Análisis de Fallos</h2>
-<label>Servicio más crítico:</label>
+<label>Servicio más crítico: el servicio de pedidos </label>
 <div class="line"></div>
-<label>¿Qué pasaría si falla?</label>
+<label>¿Qué pasaría si falla? si falla los clientes no podrian realizar los pedidos y practicamente la app dejara de cumplir como tal su función principal</label>
 <div class="line"></div>
-<label>¿El sistema debe detenerse o continuar?</label>
+<label>¿El sistema debe detenerse o continuar? podria continuar parcialmente, porque los usuario aun podrian iniciar sesion o ver sus productos pero no podrian finalizar la compra</label>
 <div class="line"></div>
-<label>¿Cómo podrían manejar este fallo?</label>
+<label>¿Cómo podrían manejar este fallo? Se podría usar monitoreo del sistema, copias del servicio y reintentos automáticos para evitar que el sistema se caiga completamente</label>
 <div class="line"></div>
 </div>
 
 <div class="section">
 <h2>🪜 6. Service Discovery</h2>
-<label>¿Qué problema ocurre si cambia la IP de un servicio?</label>
+<label>¿Qué problema ocurre si cambia la IP de un servicio? Los otros servicios no lo encontrarían y dejarían de comunicarse con él </label>
 <div class="line"></div>
-<label>¿Cómo sabría un servicio dónde encontrar otro?</label>
+<label>¿Cómo sabría un servicio dónde encontrar otro? Con un sistema que guarde las direcciones actualizadas de cada servicio </label>
 <div class="line"></div>
-<label>¿Por qué sería útil Service Discovery?</label>
+<label>¿Por qué sería útil Service Discovery? Porque ayuda a que los servicios se encuentren fácilmente sin depender de una dirección fija</label>
 <div class="line"></div>
-<label>¿Dónde lo aplicarían en su sistema?</label>
+<label>¿Dónde lo aplicarían en su sistema? Entre todos los servicios principales, como pedidos, pagos e inventario </label>
 <div class="line"></div>
 </div>
 
 <div class="section">
 <h2>🪜 7. Mini Diagrama</h2>
 <p>Dibujen:</p>
-<p><strong>Servicio A → Service Discovery → Servicio B</strong></p>
+<p><strong>Pedidos → Service Discovery → Pagos </strong></p>
 </div>
 
 <div class="note">
